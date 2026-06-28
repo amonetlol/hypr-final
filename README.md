@@ -10,7 +10,7 @@ Instalação Arch/CachyOS com theme engine (Matugen), waybar, rofi, hyprlock e d
 ## Início rápido
 
 ```bash
-git clone <repo> hypr-theme
+git clone https://github.com/amonetlol/hypr-final hypr-theme
 cd hypr-theme
 bash ensure-executable.sh   # opcional se ./install.sh falhar (git sem +x)
 bash install.sh
