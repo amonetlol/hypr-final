@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=HyprTheme
+Comment=An intelligent dynamic tiling Wayland compositor
+Exec=run-hyprland-theme
+Type=Application
+DesktopNames=HyprTheme
+Keywords=tiling;wayland;compositor;

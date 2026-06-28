@@ -1,0 +1,124 @@
+{
+  "name": "main-bar",
+  "id": "main-bar",
+  "position": "top",
+  "gtk-layer-shell": true,
+  "exclusive": true,
+  "height": 32,
+  "margin-top": 10,
+
+  "modules-center": [
+    "custom/arch",
+    "hyprland/workspaces",
+    "custom/weather",
+    "custom/layout",
+    "custom/wallpaper-changer",
+    "memory",
+    "cpu",
+    "pulseaudio",
+    "network",
+    "clock",
+    "custom/wlogout"
+  ],
+
+  "custom/arch": {
+    "format": "  ",
+    "on-click": "~/.config/themes/scripts/action.sh --menu",
+    "tooltip-format": "Application launcher"
+  },
+
+  "custom/layout": {
+    "format": "",
+    "on-click": "notify-send 'Layout' 'Configure layout script in waybar config'"
+  },
+
+  "custom/wlogout": {
+    "format": "   ",
+    "on-click": "~/.config/themes/scripts/action.sh --power",
+    "tooltip": false,
+    "tooltip-format": "Power menu"
+  },
+
+  "cpu": {
+    "interval": 5,
+    "format": " {usage}%"
+  },
+
+  "memory": {
+    "interval": 10,
+    "format": " {used:0.1f}G"
+  },
+
+  "hyprland/workspaces": {
+    "all-outputs": true,
+    "on-click": "activate",
+    "on-scroll-down": "hyprctl dispatch workspace e+1",
+    "on-scroll-up": "hyprctl dispatch workspace e-1",
+    "format": "{name}",
+    "format-icons": {
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6",
+      "7": "7",
+      "8": "8",
+      "9": "9"
+    },
+    "persistent-workspaces": {
+      "*": 1
+    }
+  },
+
+  "custom/weather": {
+    "tooltip": true,
+    "format": "{}",
+    "interval": 300,
+    "exec": "~/.config/themes/waybar/scripts/waybar-wttr.py",
+    "return-type": "json"
+  },
+
+  "custom/wallpaper-changer": {
+    "format": "",
+    "on-click": "~/.config/themes/scripts/action.sh --wall",
+    "tooltip": true,
+    "tooltip-format": "Change wallpaper (keeps theme colors)"
+  },
+
+  "clock": {
+    "format": " {:%H:%M}",
+    "tooltip-format": "<span font_size='15pt'>{calendar}</span>",
+    "calendar": {
+      "mode": "month",
+      "mode-mon-col": 3,
+      "weeks-pos": "left",
+      "format": {
+        "months": "<span font_size='8pt'><b>{}</b></span>",
+        "days": "<span font_size='8pt'>{}</span>",
+        "weeks": "<span font_size='8pt'><b>W{}</b></span>",
+        "weekdays": "<span font_size='8pt'><b>{}</b></span>",
+        "today": "<span font_size='8pt'><b><u>{}</u></b></span>"
+      }
+    }
+  },
+
+  "pulseaudio": {
+    "format": " {volume}%",
+    "format-muted": " muted",
+    "on-scroll-up": "pactl set-sink-volume @DEFAULT_SINK@ +5%",
+    "on-scroll-down": "pactl set-sink-volume @DEFAULT_SINK@ -5%",
+    "on-click": "pavucontrol",
+    "on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle"
+  },
+
+  "network": {
+    "format-wifi": " {}",
+    "format-ethernet": " {ipaddr}",
+    "exec": "iwgetid -r",
+    "format-linked": " {ifname} {No IP}",
+    "format-disconnected": " Disconnected",
+    "tooltip-format": "{ifname} via {gwaddr}\nIP: {ipaddr}\nStrength: {signalStrength}%",
+    "on-click": "nm-applet"
+  }
+}

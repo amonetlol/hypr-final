@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# GTK / icons / cursor / font defaults
+
+THEME='catppuccin-frappe-blue'
+ICONS='MacTahoe-dark'
+FONT='0xProto Nerd Font Propo 12'
+CURSOR='Qogir-cursors'
+
+SCHEMA='gsettings set org.gnome.desktop.interface'
+
+apply_themes() {
+	${SCHEMA} gtk-theme "$THEME"
+	${SCHEMA} icon-theme "$ICONS"
+	${SCHEMA} cursor-theme "$CURSOR"
+	${SCHEMA} font-name "$FONT"
+}
+
+apply_themes

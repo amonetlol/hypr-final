@@ -1,0 +1,18 @@
+## Copyright (C) 2020-2026 Aditya Shakya <adi1090x@gmail.com>
+##
+## Font configuration ---------------------------------------
+
+[font]
+size = 12
+
+[font.normal]
+family = "0xProto Nerd Font Propo"
+
+[font.bold]
+family = "0xProto Nerd Font Propo"
+
+[font.italic]
+family = "0xProto Nerd Font Propo"
+
+[font.bold_italic]
+family = "0xProto Nerd Font Propo"

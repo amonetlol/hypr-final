@@ -1,0 +1,42 @@
+@define-color bg #2d2d2d;
+
+@define-color workspace-button-bg #151515;
+@define-color workspace-button-fg #6e6e6e;
+@define-color workspace-button-hover-bg #9e9e9e;
+@define-color workspace-button-hover-fg #d4d4d4;
+@define-color workspace-button-active-bg #9e9e9e;
+@define-color workspace-button-active-fg #d4d4d4;
+
+@define-color audio-fg #9e9e9e;
+@define-color audio-muted-fg #c75050;
+
+@define-color mpris-fg #d4d4d4;
+@define-color mpris-fg-paused #6e6e6e;
+
+@define-color brightness-fg #b0b0b0;
+
+@define-color battery-fg #b0b0b0;
+@define-color battery-fg-warning #b0b0b0;
+@define-color battery-fg-critical #c75050;
+
+@define-color updates-fg #9e9e9e;
+
+@define-color clock-fg #9e9e9e;
+
+@define-color cpu-fg #b0b0b0;
+
+@define-color swaync-fg #b0b0b0;
+
+@define-color network-fg #9e9e9e;
+
+@define-color arch-logo #d4d4d4;
+
+@define-color weather-text #6e6e6e;
+
+@define-color wlogout-fg #6e6e6e;
+
+@define-color tooltip-bg #151515;
+@define-color tooltip-fg #d4d4d4;
+@define-color tooltip-border #9e9e9e;
+
+@define-color wp-changer-fg #6e6e6e;

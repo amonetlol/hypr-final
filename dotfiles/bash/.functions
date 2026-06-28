@@ -1,0 +1,386 @@
+# ============================================================
+# DETECÇÃO DA DISTRO
+# ============================================================
+detect_distro() {
+    if [[ -f /etc/nixos/configuration.nix || -d /etc/nixos ]]; then
+        echo "nixos"
+    elif [[ -f /etc/arch-release || -f /etc/artix-release ]]; then
+        echo "arch"
+    elif [[ -f /etc/debian_version ]] || grep -qiE '^(ID|ID_LIKE)=.*(debian|ubuntu|pop|mint)' /etc/os-release 2>/dev/null; then
+        echo "debian"
+    elif [[ -f /etc/fedora-release ]] || grep -qiE '^(ID|ID_LIKE)=.*fedora' /etc/os-release 2>/dev/null; then
+        echo "fedora"
+    elif [[ -f /etc/os-release ]] && grep -qiE '^(ID|ID_LIKE)=.*(opensuse|suse)' /etc/os-release; then
+        echo "opensuse"
+    elif [[ -f /etc/os-release ]] && grep -qiE '^(ID|ID_LIKE)=.*solus' /etc/os-release; then
+        echo "solus"
+    else
+        echo "unknown"
+    fi
+}
+
+reload_shell() {
+    source "$HOME/.bashrc"
+    echo "Bash recarregado."
+}
+
+
+path_check() {
+    echo "$PATH" | tr ':' '\n'
+}
+
+# ============================================================
+# FASTFETCH / INFORMAÇÕES DO SISTEMA
+# ============================================================
+
+ft_old() {
+    local config_dir="$HOME/.config/fastfetch"
+
+    if ! command -v fastfetch >/dev/null 2>&1; then
+        echo "Erro: fastfetch nÃ£o estÃ¡ instalado." >&2
+        return 1
+    fi
+
+    local configs=(
+        "$config_dir/Chris.jsonc"
+        "$config_dir/config.jsonc"
+        "$config_dir/small_config.jsonc"
+        "$config_dir/cybrland.jsonc"
+    )
+
+    local valid_configs=()
+    local cfg
+
+    for cfg in "${configs[@]}"; do
+        [[ -f "$cfg" ]] && valid_configs+=("$cfg")
+    done
+
+    if [[ ${#valid_configs[@]} -eq 0 ]]; then
+        echo "Erro: nenhuma config encontrada em $config_dir" >&2
+        return 1
+    fi
+
+    local chosen="${valid_configs[$RANDOM % ${#valid_configs[@]}]}"
+
+    fastfetch --config "$chosen"
+}
+
+
+# ============================================================
+# GIT
+# ============================================================
+
+gc() {
+    if [[ -z "$1" ]]; then
+        echo "Uso: gc <url-do-repositório> [pasta-opcional]"
+        return 1
+    fi
+
+    if ! command -v git >/dev/null 2>&1; then
+        echo "Erro: git não está instalado." >&2
+        return 1
+    fi
+
+    git clone "$@"
+
+    if [[ $? -ne 0 ]]; then
+        echo "Erro ao clonar o repositório." >&2
+        return 1
+    fi
+
+    local repo_dir
+
+    if [[ -n "$2" ]]; then
+        repo_dir="$2"
+    else
+        repo_dir="$(basename "$1" .git)"
+    fi
+
+    if [[ -d "$repo_dir" ]]; then
+        cd "$repo_dir" || return 1
+        echo "Entrou na pasta: $repo_dir"
+    else
+        echo "Aviso: pasta '$repo_dir' não encontrada após clone." >&2
+        return 1
+    fi
+}
+
+dotupdate() {
+    cd ~/.src/dot || { echo "❌ Pasta ~/.src/dot não encontrada"; return 1; }
+    
+    echo "🔄 Atualizando repositório Git..."
+    git fetch --all
+    
+    # Resetando para ficar igual ao remoto
+    git reset --hard origin/main
+    
+    # Mostra o que mudou (muito útil)
+    echo "📋 Arquivos alterados:"
+    #git log --oneline -5 HEAD@{1}..HEAD || echo "Nenhuma mudança detectada"
+    GIT_PAGER=cat git log --oneline -5 HEAD@{1}..HEAD 2>/dev/null || echo "Nenhuma mudança detectada"
+    
+    echo "🔄 Preparando ~/.dotfiles ..."
+    mkdir -p ~/.dotfiles
+    
+    # Limpeza antes de restowar
+    echo "🔄 Removendo links antigos..."
+    stow -D dotfiles -t ~/.dotfiles 2>/dev/null || true
+    find ~/.dotfiles -type l -delete 2>/dev/null || true
+    
+    echo "🔄 Restowando dotfiles..."
+    stow -v -R dotfiles -t ~/.dotfiles
+    
+    if [ $? -eq 0 ]; then
+        echo "✅ Dotfiles atualizados com sucesso!"
+    else
+        echo "❌ Erro durante o stow. Verifique os conflitos acima."
+    fi
+
+    echo "🔧 Aplicando permissões extras..."
+
+    # Funções ok/warn (se ainda não tiverem no script)
+    ok() { echo -e "\033[32m✅ $1\033[0m"; }
+    warn() { echo -e "\033[33m⚠️  $1\033[0m"; }
+
+    # === Todos os scripts dentro de ~/.bin ===
+    if [[ -d "$HOME/.bin" ]]; then
+      chmod +x "$HOME"/.bin/*
+      ok "Permissões aplicadas em ~/.bin."
+    else
+      warn "~/.bin não encontrado após stow."
+    fi
+    
+    # === Arquivos individuais ===
+    for script in \
+        "$HOME/.config/rofi/launcher.sh" \
+        "$HOME/.config/rofi/rofi-applet/powermenu.sh"; do
+        
+        if [[ -f "$script" ]]; then
+            chmod +x "$script"
+            ok "Permissão aplicada: $script"
+        else
+            warn "Arquivo não encontrado: $script"
+        fi
+    done
+    
+    # === Todos os scripts dentro de waybar/scripts ===
+    if [[ -d "$HOME/.config/waybar/scripts" ]]; then
+        find "$HOME/.config/waybar/scripts" -type f -exec chmod +x {} \;
+        ok "Permissões +x aplicadas em ~/.config/waybar/scripts/*"
+    else
+        warn "Diretório não encontrado: ~/.config/waybar/scripts"
+    fi
+    
+    # === Scripts do rofi-catppuccin (ajustado) ===
+    if [[ -d "$HOME/.config/rofi/rofi-catppuccin" ]]; then
+        find "$HOME/.config/rofi/rofi-catppuccin" -type f -name "*.sh" -exec chmod +x {} \;
+        ok "Permissões +x aplicadas em ~/.config/rofi/rofi-catppuccin/*.sh"
+    else
+        warn "Diretório não encontrado: ~/.config/rofi/rofi-catppuccin"
+    fi
+}
+
+# ============================================================
+# SYSTEMD
+# ============================================================
+
+sys_failed() {
+    systemctl --failed
+    echo
+    journalctl -p 3 -b
+}
+
+
+sys_user_failed() {
+    systemctl --user --failed
+    echo
+    journalctl --user -p 3 -b
+}
+
+
+sys_status() {
+    if [[ -z "$1" ]]; then
+        echo "Uso: sys_status <serviço>"
+        return 1
+    fi
+
+    systemctl status "$1"
+}
+
+
+sys_user_status() {
+    if [[ -z "$1" ]]; then
+        echo "Uso: sys_user_status <serviço>"
+        return 1
+    fi
+
+    systemctl --user status "$1"
+}
+
+
+sys_restart() {
+    if [[ -z "$1" ]]; then
+        echo "Uso: sys_restart <serviço>"
+        return 1
+    fi
+
+    sudo systemctl restart "$1"
+}
+
+
+sys_user_restart() {
+    if [[ -z "$1" ]]; then
+        echo "Uso: sys_user_restart <serviço>"
+        return 1
+    fi
+
+    systemctl --user restart "$1"
+}
+
+# ============================================================
+# NAVEGAçÃO / FZF
+# ============================================================
+
+cdf() {
+    local dir
+
+    dir="$(fd --type d --hidden --exclude .git 2>/dev/null | fzf-tmux -p --reverse)" || return 1
+
+    [[ -n "$dir" ]] && cd "$dir" && ls -la
+}
+
+
+vf() {
+    local file
+
+    file="$(fd --type f --hidden --exclude .git 2>/dev/null | fzf-tmux -p --reverse)" || return 1
+
+    [[ -n "$file" ]] && nvim "$file"
+}
+
+# ============================================================
+# MISC
+# ============================================================
+
+extract() {
+    if [[ -z "$1" ]]; then
+        echo "Uso: extract <arquivo>"
+        return 1
+    fi
+
+    if [[ ! -f "$1" ]]; then
+        echo "Erro: arquivo '$1' não encontrado." >&2
+        return 1
+    fi
+
+    case "$1" in
+        *.tar.bz2) tar xjf "$1" ;;
+        *.tar.gz)  tar xzf "$1" ;;
+        *.tar.xz)  tar xJf "$1" ;;
+        *.tar)     tar xf "$1" ;;
+        *.tbz2)    tar xjf "$1" ;;
+        *.tgz)     tar xzf "$1" ;;
+        *.zip)     unzip "$1" ;;
+        *.rar)     unrar x "$1" ;;
+        *.7z)      7z x "$1" ;;
+        *.gz)      gunzip "$1" ;;
+        *.bz2)     bunzip2 "$1" ;;
+        *.xz)      unxz "$1" ;;
+        *)         echo "Formato não suportado: $1" >&2; return 1 ;;
+    esac
+}
+
+myip() {
+    curl -s ifconfig.me
+    echo
+}
+
+localip() {
+    ip -4 addr show scope global | awk '/inet / {print $2}' | cut -d/ -f1
+}
+
+ipinfo() {
+    echo "Local: $(localip)"
+    echo "Web: $(myip)"
+}
+
+copypath() {
+    local path
+
+    if [ -n "$1" ]; then
+        path=$(realpath "$1")
+    else
+        path=$(pwd)
+    fi
+
+    # Detecta o tipo de sessão
+    if [[ "${XDG_SESSION_TYPE}" == "wayland" ]] || [[ -n "$WAYLAND_DISPLAY" ]]; then
+        # Wayland
+        printf '%s' "$path" | wl-copy
+        echo "✅ Caminho copiado (Wayland): $path"
+    elif [[ "${XDG_SESSION_TYPE}" == "x11" ]] || [[ -n "$DISPLAY" ]]; then
+        # X11
+        printf '%s' "$path" | xclip -selection clipboard
+        echo "✅ Caminho copiado (X11): $path"
+    else
+        echo "❌ Não foi possível detectar X11 ou Wayland."
+        return 1
+    fi
+}
+
+fr() {
+    if [ -z "$1" ]; then
+        echo "Uso: fr <programa> [argumentos]"
+        return 1
+    fi
+
+    # Executa detached de forma limpa para Hyprland/Wayland
+    setsid "$@" >/dev/null 2>&1 &
+    disown $! 2>/dev/null
+    
+    echo "▶️  $(basename "$1") iniciado"
+}
+
+# ============================================================
+# WALLPAPERS
+# ============================================================
+
+wall() {
+    if [[ -z "$1" ]]; then
+        echo "Uso: wall <imagem>"
+        return 1
+    fi
+
+    if [[ ! -f "$1" ]]; then
+        echo "Erro: imagem '$1' não encontrada." >&2
+        return 1
+    fi
+
+    if command -v swww >/dev/null 2>&1; then
+        swww img "$1"
+    elif command -v awww >/dev/null 2>&1; then
+        awww img "$1"
+    elif command -v feh >/dev/null 2>&1; then
+        feh --bg-fill "$1"
+    else
+        echo "Erro: nenhum setter de wallpaper encontrado." >&2
+        return 1
+    fi
+}
+
+# ============================================================
+# FZF
+# ============================================================
+
+fzf-help() {
+  echo -e "
+  = ATALHOS PADRÃO DO FZF =
+  Ctrl + R   -> Buscar no histórico de comandos
+  Ctrl + T   -> Buscar arquivos e colar na linha de comando
+  Alt + C    -> Navegar (cd) para subdiretórios interativamente
+  Alt + e    -> vf()
+  " | fzf --header "Guia de Atalhos do FZF (Aperte ESC para sair)" --layout=reverse --height=20
+}
+
+# Bind Alt+e
+#bind -x '"\ee": vf'

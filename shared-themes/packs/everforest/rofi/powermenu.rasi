@@ -1,0 +1,63 @@
+@import "shared/colors.rasi"
+@import "shared/fonts.rasi"
+@import "shared/elements.rasi"
+
+configuration {
+  show-icons: false;
+}
+
+window {
+  width: 720;
+  padding: 10;
+  border: 0;
+  border-radius: 14;
+  background-color: @background;
+}
+
+mainbox {
+  spacing: 10;
+  background-color: transparent;
+  children: [ inputbar, listview ];
+}
+
+inputbar {
+  enabled: true;
+  padding: 8 10;
+  border-radius: 14;
+  background-color: @background-alt;
+  text-color: @foreground;
+  children: [ prompt, message ];
+}
+
+prompt {
+  enabled: true;
+  padding: 0;
+  background-color: transparent;
+  text-color: @accent;
+}
+
+message {
+  background-color: transparent;
+  text-color: @muted;
+}
+
+listview {
+  columns: 6;
+  lines: 1;
+  spacing: 8;
+  scrollbar: false;
+  background-color: transparent;
+}
+
+element {
+  padding: 16 12;
+  border-radius: 10;
+  background-color: @background-alt;
+  text-color: @foreground;
+}
+
+element-text {
+  background-color: transparent;
+  text-color: inherit;
+  horizontal-align: 0.5;
+}

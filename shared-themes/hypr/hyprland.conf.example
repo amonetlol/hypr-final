@@ -1,0 +1,227 @@
+# Hyprland — formato conf (theme via ~/.config/hypr/theme.conf symlink)
+# Install: bash install.sh → Hypr full ou installers/install_hypr-alt.sh
+# Lua alternativo: hyprland.lua.example (ver INSTALL.md)
+
+source = ~/.config/hypr/theme.conf
+source = ~/.config/hypr/window-rules.conf
+
+################
+### MONITORS ###
+################
+
+monitor=,preferred,auto,1
+
+#################
+### AUTOSTART ###
+#################
+
+exec-once = dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
+exec-once = sh -c 'test -x /usr/lib/xfce-polkit/xfce-polkit && /usr/lib/xfce-polkit/xfce-polkit || /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1'
+exec-once = numlockx on
+exec-once = nm-applet --indicator
+exec-once = hyprsunset -c ~/.config/hypr/hyprsunset.conf
+exec-once = hypridle -c ~/.config/hypr/hypridle.conf
+exec-once = ~/.config/hypr/scripts/gtkthemes
+exec-once = wl-paste --type text --watch cliphist -max-items 2000 store
+exec-once = wl-paste --type image --watch cliphist -max-items 2000 store
+exec-once = ~/.config/themes/scripts/action.sh --waybar
+exec-once = awww-daemon
+exec-once = mako -c ~/.config/themes/mako/config
+
+exec-once = wayvnc -C ~/.config/wayvnc/config
+
+# -- Apps -- #
+# Workspace 1
+exec-once = [workspace 1 silent] ~/.config/hypr/scripts/foot
+# Workspace 2
+exec-once = [workspace 2 silent] firefox
+# Workspace 8
+exec-once = [workspace 8 silent] brave-origin-nightly http://127.0.0.1:8080/all-split.html
+# Workspace 9
+exec-once = [workspace 9 silent] blueman-manager
+exec-once = [workspace 9 silent] gmetronome
+
+#############################
+### ENVIRONMENT VARIABLES ###
+#############################
+
+env = XCURSOR_SIZE,24
+env = XCURSOR_THEME,Qogir-cursors
+env = HYPRCURSOR_SIZE,24
+env = WLR_NO_HARDWARE_CURSORS,1
+env = WLR_RENDERER_ALLOW_SOFTWARE,1
+env = QT_QPA_PLATFORM,wayland;xcb
+env = QT_WAYLAND_DISABLE_WINDOWDECORATION,1
+env = GDK_BACKEND,wayland,x11
+env = MOZ_ENABLE_WAYLAND,1
+env = GSK_RENDERER,cairo
+env = WEBKIT_DISABLE_DMABUFF,1
+
+####################
+### LOOK AND FEEL ###
+####################
+
+misc {
+    force_default_wallpaper = 0
+    disable_hyprland_logo = true
+    disable_splash_rendering = true
+}
+
+general {
+    gaps_in = 5
+    gaps_out = 10
+    border_size = 2
+    # col.active_border = rgba(33ccffee) rgba(00ff99ee) 45deg
+    # col.inactive_border = rgba(595959aa)
+    layout = dwindle
+}
+
+dwindle {
+    preserve_split = false
+}
+
+master {
+    new_status = master
+}
+
+decoration {
+    rounding = 6
+    blur {
+        enabled = true
+        size = 3
+        passes = 1
+    }
+}
+
+animations {
+    enabled = true
+    bezier = easeOutQuint, 0.23, 1, 0.32, 1
+    bezier = easeInOutCubic, 0.65, 0.05, 0.36, 1
+    bezier = linear, 0, 0, 1, 1
+    bezier = almostLinear, 0.5, 0.5, 0.75, 1
+    bezier = quick, 0.15, 0, 0.1, 1
+    animation = global, 1, 10, default
+    animation = border, 1, 5.39, easeOutQuint
+    animation = windows, 1, 4.79, default
+    animation = windowsIn, 1, 4.1, default, popin 87%
+    animation = windowsOut, 1, 1.49, linear, popin 87%
+    animation = fadeIn, 1, 1.73, almostLinear
+    animation = fadeOut, 1, 1.46, almostLinear
+    animation = fade, 1, 3.03, quick
+    animation = layers, 1, 3.81, easeOutQuint
+    animation = layersIn, 1, 4, easeOutQuint, fade
+    animation = layersOut, 1, 1.5, linear, fade
+    animation = fadeLayersIn, 1, 1.79, almostLinear
+    animation = fadeLayersOut, 1, 1.39, almostLinear
+    animation = workspaces, 1, 1.94, almostLinear, fade
+    animation = workspacesIn, 1, 1.21, almostLinear, fade
+    animation = workspacesOut, 1, 1.94, almostLinear, fade
+}
+
+#############
+### INPUT ###
+#############
+
+input {
+    kb_layout = br
+    kb_variant = abnt2
+    follow_mouse = 1
+    sensitivity = 0
+    touchpad {
+        natural_scroll = false
+    }
+}
+
+gesture = 3, horizontal, workspace
+
+###################
+### KEYBINDINGS ###
+###################
+
+$mainMod = SUPER
+$action = ~/.config/themes/scripts/action.sh
+$themes = ~/.config/themes
+
+bind = $mainMod, F1, exec, foot -c $themes/foot/foot.ini --app-id foot-float -e less $themes/hypr/BINDS.md
+bind = $mainMod, RETURN, exec, $action --foot
+bind = $mainMod SHIFT, RETURN, exec, foot -c $themes/foot/foot.ini --app-id foot-float
+bind = $mainMod, Q, killactive
+bind = $mainMod, M, exec, command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch exit
+bind = $mainMod, ESCAPE, exit
+bind = $mainMod, E, exec, thunar
+bind = $mainMod, D, exec, $action --menu
+bind = $mainMod SHIFT, P, pseudo
+
+bind = $mainMod, left, movefocus, l
+bind = $mainMod, right, movefocus, r
+bind = $mainMod, up, movefocus, u
+bind = $mainMod, down, movefocus, d
+
+bind = $mainMod, F, fullscreen, 1
+bind = $mainMod, F5, exec, hyprctl dispatch togglefloating; hyprctl dispatch centerwindow
+bind = $mainMod, F7, layoutmsg, togglesplit
+bind = $mainMod, F8, exec, hyprctl dispatch togglefloating; hyprctl dispatch pin; hyprctl dispatch centerwindow
+
+bind = $mainMod SHIFT, R, exec, hyprctl reload
+bind = $mainMod, T, exec, $themes/scripts/theme-selector.sh
+bind = $mainMod, F10, exec, $action --wall
+bind = $mainMod SHIFT, T, exec, $action --wall-matu
+bind = $mainMod SHIFT, C, exec, $themes/scripts/configuration.sh
+bind = $mainMod, X, exec, $action --power
+
+bind = ALT, V, exec, $action --clip
+bind = $mainMod SHIFT, D, exec, $action --window
+bind = $mainMod, P, exec, $action --screen
+
+bind = $mainMod, W, exec, firefox
+bind = , F12, exec, $action --waybar
+bind = $mainMod, F12, exec, $action --waybar
+
+bind = ALT, TAB, swapnext,
+bind = ALT SHIFT, TAB, swapnext, prev
+
+bind = $mainMod, S, togglespecialworkspace, magic
+bind = $mainMod SHIFT, S, movetoworkspace, special:magic
+
+bind = $mainMod, mouse_down, workspace, e+1
+bind = $mainMod, mouse_up, workspace, e-1
+bindm = $mainMod, mouse:272, movewindow
+bindm = $mainMod, mouse:273, resizewindow
+
+bind = , XF86AudioRaiseVolume, exec, wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+
+bind = , XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+bind = , XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+bind = , XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
+bind = , XF86MonBrightnessUp, exec, brightnessctl -e4 -n2 set 5%+
+bind = , XF86MonBrightnessDown, exec, brightnessctl -e4 -n2 set 5%-
+bind = , XF86AudioNext, exec, playerctl next
+bind = , XF86AudioPause, exec, playerctl play-pause
+bind = , XF86AudioPlay, exec, playerctl play-pause
+bind = , XF86AudioPrev, exec, playerctl previous
+
+bind = $mainMod, 1, workspace, 1
+bind = $mainMod, 2, workspace, 2
+bind = $mainMod, 3, workspace, 3
+bind = $mainMod, 4, workspace, 4
+bind = $mainMod, 5, workspace, 5
+bind = $mainMod, 6, workspace, 6
+bind = $mainMod, 7, workspace, 7
+bind = $mainMod, 8, workspace, 8
+bind = $mainMod, 9, workspace, 9
+bind = $mainMod, 0, workspace, 10
+
+bind = $mainMod SHIFT, 1, movetoworkspace, 1
+bind = $mainMod SHIFT, 2, movetoworkspace, 2
+bind = $mainMod SHIFT, 3, movetoworkspace, 3
+bind = $mainMod SHIFT, 4, movetoworkspace, 4
+bind = $mainMod SHIFT, 5, movetoworkspace, 5
+bind = $mainMod SHIFT, 6, movetoworkspace, 6
+bind = $mainMod SHIFT, 7, movetoworkspace, 7
+bind = $mainMod SHIFT, 8, movetoworkspace, 8
+bind = $mainMod SHIFT, 9, movetoworkspace, 9
+bind = $mainMod SHIFT, 0, movetoworkspace, 10
+
+windowrule = match:class .*, suppress_event maximize
+
+windowrule = match:class ^$, match:title ^$, match:xwayland 1, match:float 1, match:fullscreen 0, match:pin 0, no_focus on
+windowrule = match:class hyprland-run, float on, move 20 monitor_h-120

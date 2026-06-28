@@ -1,0 +1,9 @@
+# scope|unit|pacotes (espaço)|start_now (yes/no)
+# scope: system | user
+system|sddm|sddm qt6-svg qt6-declarative|no
+system|sshd|openssh|yes
+system|NetworkManager|networkmanager|yes
+system|vmtoolsd|open-vm-tools|yes
+user|pipewire.service|pipewire|yes
+user|pipewire-pulse.service|pipewire-pulse|yes
+user|wireplumber.service|wireplumber|yes

@@ -1,0 +1,38 @@
+-- Theme colors — sourced from theme engine (Hyprland Lua config)
+
+local M = {}
+
+M.general = {
+    ["col.active_border"] = {
+        colors = { "0xee83a598", "0xeeb8bb26" },
+        angle = 45,
+    },
+    ["col.inactive_border"] = 0xaa3c3836,
+}
+
+M.decoration = {
+    rounding = 10,
+    active_opacity = 1.0,
+    inactive_opacity = 0.92,
+    shadow = {
+        enabled = true,
+        range = 12,
+        render_power = 3,
+        color = 0xee282828,
+    },
+    blur = {
+        enabled = true,
+        size = 6,
+        passes = 2,
+        new_optimizations = true,
+    },
+}
+
+M.group = {
+    ["col.border_active"] = 0xee83a598,
+    ["col.border_inactive"] = 0xaa3c3836,
+    ["col.border_locked_active"] = 0xeefb4934,
+    ["col.border_locked_inactive"] = 0xaa3c3836,
+}
+
+return M

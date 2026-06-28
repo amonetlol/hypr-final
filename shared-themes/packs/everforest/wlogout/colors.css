@@ -1,0 +1,6 @@
+@define-color window-bg rgba(45, 53, 59, 0.92);
+@define-color button-bg rgba(61, 72, 77, 0.75);
+@define-color button-fg #d3c6aa;
+@define-color button-border #2d353b;
+@define-color button-hover #7fbbb3;
+@define-color button-fg-hover #2d353b;

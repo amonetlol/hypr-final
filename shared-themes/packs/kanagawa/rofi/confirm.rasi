@@ -1,0 +1,46 @@
+@import "shared/colors.rasi"
+@import "shared/fonts.rasi"
+
+window {
+  width: 400;
+  padding: 10;
+  border: 0;
+  border-radius: 14;
+  background-color: @background;
+}
+
+mainbox {
+  spacing: 10;
+  background-color: transparent;
+}
+
+inputbar {
+  enabled: true;
+  padding: 8 10;
+  border-radius: 14;
+  background-color: @background-alt;
+  children: [ prompt ];
+}
+
+prompt {
+  enabled: true;
+  text-color: @accent;
+}
+
+listview {
+  lines: 2;
+  spacing: 8;
+  scrollbar: false;
+}
+
+element {
+  padding: 14;
+  border-radius: 10;
+  background-color: @background-alt;
+  text-color: @foreground;
+}
+
+element selected {
+  background-color: @accent;
+  text-color: @background;
+}

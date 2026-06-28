@@ -1,0 +1,5 @@
+# Pacotes AUR — após yay-bin
+
+nwg-look
+waypaper
+xfce-polkit

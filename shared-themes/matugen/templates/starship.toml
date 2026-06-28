@@ -1,0 +1,61 @@
+format = """
+[░▒▓]({{colors.secondary_fixed_dim.default.hex}})\
+[  ](bg:{{colors.secondary_fixed_dim.default.hex}} fg:{{colors.surface.default.hex}})\
+[](bg:{{colors.primary.default.hex}} fg:{{colors.secondary_fixed_dim.default.hex}})\
+$directory\
+[](fg:{{colors.primary.default.hex}} bg:{{colors.surface_container_high.default.hex}})\
+$git_branch\
+$git_status\
+[](fg:{{colors.surface_container_high.default.hex}} bg:{{colors.surface_container_low.default.hex}})\
+$nodejs\
+$rust\
+$golang\
+$php\
+[](fg:{{colors.surface_container_low.default.hex}} bg:{{colors.surface.default.hex}})\
+$time\
+[ ](fg:{{colors.surface.default.hex}})\
+$character"""
+
+scan_timeout = 200
+command_timeout = 5000
+
+[directory]
+style = "fg:{{colors.on_surface.default.hex}} bg:{{colors.primary.default.hex}}"
+format = "[ $path ]($style)"
+truncation_length = 3
+truncation_symbol = "…/"
+
+[git_branch]
+symbol = ""
+style = "bg:{{colors.surface_container_high.default.hex}}"
+format = '[[ $symbol $branch ](fg:{{colors.primary.default.hex}} bg:{{colors.surface_container_high.default.hex}})]($style)'
+
+[git_status]
+style = "bg:{{colors.surface_container_high.default.hex}}"
+format = '[[($all_status$ahead_behind )](fg:{{colors.primary.default.hex}} bg:{{colors.surface_container_high.default.hex}})]($style)'
+
+[nodejs]
+symbol = ""
+style = "bg:{{colors.surface_container_low.default.hex}}"
+format = '[[ $symbol ($version) ](fg:{{colors.primary.default.hex}} bg:{{colors.surface_container_low.default.hex}})]($style)'
+
+[rust]
+symbol = ""
+style = "bg:{{colors.surface_container_low.default.hex}}"
+format = '[[ $symbol ($version) ](fg:{{colors.primary.default.hex}} bg:{{colors.surface_container_low.default.hex}})]($style)'
+
+[golang]
+symbol = "ﳑ"
+style = "bg:{{colors.surface_container_low.default.hex}}"
+format = '[[ $symbol ($version) ](fg:{{colors.primary.default.hex}} bg:{{colors.surface_container_low.default.hex}})]($style)'
+
+[php]
+symbol = ""
+style = "bg:{{colors.surface_container_low.default.hex}}"
+format = '[[ $symbol ($version) ](fg:{{colors.primary.default.hex}} bg:{{colors.surface_container_low.default.hex}})]($style)'
+
+[time]
+disabled = true
+time_format = "%R"
+style = "bg:{{colors.surface.default.hex}}"
+format = '[[  $time ](fg:{{colors.on_surface_variant.default.hex}} bg:{{colors.surface.default.hex}})]($style)'

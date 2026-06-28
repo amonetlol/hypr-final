@@ -1,0 +1,128 @@
+@import "colors.css";
+
+@define-color module-fg #FAF9F6;
+
+* {
+  font-family:
+    "0xProto Nerd Font Propo", "Noto Sans CJK TC Medium", sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+window#waybar {
+  background: transparent;
+  margin: 5px 5px 0 5px;
+  transition: 0.22s;
+}
+
+/* Workspaces — backgrounds stay themed; labels use uniform fg */
+#workspaces {
+  padding: 0 2.7px;
+  background: @bg;
+}
+
+#workspaces button {
+  padding: 0 5px;
+  margin: 4px 2px;
+  border-radius: 15px;
+  background: @workspace-button-bg;
+  color: @module-fg;
+  transition: 0.23s;
+}
+
+#workspaces button.active {
+  background: @workspace-button-active-bg;
+  color: @module-fg;
+  padding: 0 20px;
+}
+
+#workspaces button:hover {
+  background: @workspace-button-hover-bg;
+  color: @module-fg;
+  padding: 0 15px;
+}
+
+/* Declaração de Módulos */
+#custom-wallpaper-changer,
+#tray,
+#backlight,
+#clock,
+#pulseaudio,
+#network,
+#battery,
+#mpris,
+#custom-arch,
+#custom-cpu,
+#custom-layout,
+#cpu,
+#memory,
+#memory.2,
+#custom-weather,
+#custom-updates,
+#custom-wlogout,
+#custom-swaync {
+  padding: 0px 10px;
+  background: @bg; /* module box color */
+  border-radius: 0px; /* rounded box */
+  color: @module-fg;
+}
+
+/* left-right modules border radius */
+#custom-arch {
+  border-radius: 20px 0px 0px 20px;
+  font-size: 22px;
+}
+#custom-wlogout {
+  border-radius: 0px 20px 20px 0px;
+}
+
+/* modules — uniform foreground */
+#clock,
+#custom-weather,
+#custom-wallpaper-changer,
+#custom-updates,
+#backlight,
+#pulseaudio,
+#network,
+#battery,
+#custom-wlogout,
+#custom-swaync,
+#custom-cpu,
+#cpu,
+#mpris,
+#memory,
+#memory.2,
+#custom-layout {
+  color: @module-fg;
+}
+
+#custom-wallpaper-changer,
+#custom-wlogout,
+#custom-layout {
+  font-size: 18px;
+}
+
+/* Modules states */
+#pulseaudio.muted,
+#battery.warning,
+#battery.critical,
+#mpris.paused {
+  color: @module-fg;
+}
+
+tooltip {
+  background: @tooltip-bg;
+  border: 1px solid @tooltip-border;
+  border-radius: 8px;
+  min-width: 450px;
+  padding: 10px;
+}
+
+tooltip label {
+  color: @tooltip-fg;
+  font-size: 12px;
+  padding: 5px;
+}

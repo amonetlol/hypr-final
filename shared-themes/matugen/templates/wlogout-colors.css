@@ -1,0 +1,6 @@
+@define-color window-bg {{ colors.surface.default.rgba | set_alpha: 0.92 }};
+@define-color button-bg {{ colors.surface_container_high.default.rgba | set_alpha: 0.75 }};
+@define-color button-fg {{ colors.on_surface.default.hex }};
+@define-color button-border {{ colors.surface.default.hex }};
+@define-color button-hover {{ colors.primary.default.hex }};
+@define-color button-fg-hover {{ colors.on_primary.default.hex }};

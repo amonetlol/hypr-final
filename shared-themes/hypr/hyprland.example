@@ -1,0 +1,38 @@
+# Hyprland integration (0.55+ Lua)
+#
+# Install reference config:
+#   cp ~/.config/themes/hypr/hyprland.lua.example ~/.config/hypr/hyprland.lua
+#   cp ~/.config/themes/hypr/window-rules.lua      ~/.config/hypr/window-rules.lua
+#   ln -sfn ~/.config/themes/hypr/theme.lua        ~/.config/hypr/theme.lua
+#
+# Theme colors (generated per pack / matugen):
+#   ln -sfn ~/.config/themes/hypr/theme.conf ~/.config/hypr/theme.conf
+
+local theme = require("theme")
+hl.config(theme)
+
+exec-once = waybar via hyprland.start in hyprland.lua.example
+exec-once = mako -c ~/.config/themes/mako/config
+
+# --- Keybind cheatsheet (Lua — see hyprland.lua.example) ---
+# SUPER+F1         keybind cheatsheet (BINDS.md)
+# SUPER+F          maximize toggle     (hyprlang: fullscreen, 1)
+# SUPER+F5         float + center      (chained dispatch)
+# SUPER+F7         togglesplit
+# SUPER+F8         float + pin + center
+# SUPER+SHIFT+R    hyprctl reload
+# SUPER+T          theme-selector.sh
+# SUPER+F10        wallpaper picker
+# SUPER+SHIFT+T    matugen wallpaper
+# SUPER+X          power menu (rofi)
+# SUPER+SHIFT+C    configuration.sh
+# SUPER+SHIFT+D    window switcher
+# SUPER+P          screenshot menu
+# ALT+V            clipboard
+# ALT+TAB          swap next window
+# F12              restart waybar
+# SUPER+F12        restart waybar (alt)
+# SUPER+ESCAPE     exit Hyprland
+
+# Legacy hyprlang (0.54) — use hyprland.conf.example or hyprland.lua.example on 0.55+
+# Install full: bash install_hyprland_full.sh (pergunta conf ou lua)

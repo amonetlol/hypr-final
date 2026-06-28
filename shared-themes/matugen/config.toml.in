@@ -1,0 +1,45 @@
+# Matugen config for Theme Engine
+# Paths are rewritten by setup-matugen.sh (or use ~/.config/themes after deploy)
+
+[config]
+set_wallpaper = false
+
+[templates.waybar]
+input_path = "THEMES_DIR/matugen/templates/waybar-colors.css"
+output_path = "THEMES_DIR/matugen/generated/waybar/colors.css"
+
+[templates.hypr_conf]
+input_path = "THEMES_DIR/matugen/templates/hypr-theme.conf"
+output_path = "THEMES_DIR/matugen/generated/hypr/theme.conf"
+
+[templates.hypr_lua]
+input_path = "THEMES_DIR/matugen/templates/hypr-theme.lua"
+output_path = "THEMES_DIR/matugen/generated/hypr/theme.lua"
+
+[templates.rofi]
+input_path = "THEMES_DIR/matugen/templates/rofi-colors.rasi"
+output_path = "THEMES_DIR/packs/matugen/rofi/shared/colors.rasi"
+
+[templates.foot]
+input_path = "THEMES_DIR/matugen/templates/foot-colors.ini"
+output_path = "THEMES_DIR/matugen/generated/foot/colors.ini"
+
+[templates.kitty]
+input_path = "THEMES_DIR/matugen/templates/kitty-colors.conf"
+output_path = "THEMES_DIR/matugen/generated/kitty/colors.conf"
+
+[templates.alacritty]
+input_path = "THEMES_DIR/matugen/templates/alacritty-colors.toml"
+output_path = "THEMES_DIR/matugen/generated/alacritty/colors.toml"
+
+[templates.mako]
+input_path = "THEMES_DIR/matugen/templates/mako-colors.conf"
+output_path = "THEMES_DIR/matugen/generated/mako/colors.conf"
+
+[templates.wlogout]
+input_path = "THEMES_DIR/matugen/templates/wlogout-colors.css"
+output_path = "THEMES_DIR/matugen/generated/wlogout/colors.css"
+
+[templates.starship]
+input_path = "THEMES_DIR/matugen/templates/starship.toml"
+output_path = "THEMES_DIR/matugen/generated/starship/starship.toml"

@@ -1,0 +1,16 @@
+# Generated at runtime by theme-apply.sh
+waybar/colors.css
+foot/colors.ini
+kitty/colors.conf
+alacritty/colors.toml
+mako/colors.conf
+mako/config
+wlogout/colors.css
+hypr/theme.conf
+hypr/theme.lua
+starship/starship.toml
+rofi/active
+rofi/shared
+matugen/generated/
+matugen/config.toml
+matugen/wallpaper

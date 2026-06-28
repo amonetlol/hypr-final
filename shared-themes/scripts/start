@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+# Full setup: chmod → generate packs → deploy links → apply theme → hyprctl reload
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+THEMES_DIR="$(dirname "$SCRIPT_DIR")"
+
+GREEN='\033[0;32m'
+BLUE='\033[0;34m'
+YELLOW='\033[0;33m'
+RED='\033[0;31m'
+NC='\033[0m'
+
+run() {
+  echo -e "${BLUE}[*]${NC} $*"
+  "$@"
+}
+
+echo -e "${BLUE}============ Theme Engine Setup ============${NC}"
+
+run bash "$SCRIPT_DIR/chmod-scripts.sh"
+
+SCRIPTS=(generate-packs.sh link-setup.sh)
+for script in "${SCRIPTS[@]}"; do
+  path="$SCRIPT_DIR/$script"
+  if [[ ! -f "$path" ]]; then
+    echo -e "${RED}[X] Missing: $path${NC}"
+    exit 1
+  fi
+  chmod +x "$path"
+  echo -e "${YELLOW}[*] Running: $script${NC}"
+  run bash "$path"
+  echo -e "${GREEN}[✓] $script done${NC}\n"
+done
+
+echo -e "${BLUE}[*] hyprctl reload${NC}"
+hyprctl reload 2>/dev/null || echo -e "${YELLOW}WARN: hyprctl not available (skip)${NC}"
+
+echo -e "${GREEN}===========================================${NC}"
+echo -e "${GREEN}      Setup concluído com sucesso!         ${NC}"
+echo -e "${GREEN}===========================================${NC}"
