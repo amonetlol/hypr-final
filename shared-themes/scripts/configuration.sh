@@ -42,11 +42,11 @@ case "$options" in
   *Wallpapers*)     open_dir "$HOME/Imagens/wallpapers" ;;
   *Neovim*)
     foot nvim +'lua Snacks.dashboard.pick("files", { cwd = vim.fn.stdpath("config") })' 2>/dev/null \
-      || foot nvim "$HOME/.config/nvim"
+      || foot -c "$FOOT_DIR" "$HOME/.config/nvim"
     ;;
 
-  *Starship*)       foot nvim "$THEMES_DIR/starship/starship.toml" ;;
-  *Fastfetch*)      foot nvim "$HOME/.config/fastfetch/config.jsonc" ;;
+  *Starship*)       foot -c "$FOOT_DIR" "$THEMES_DIR/starship/starship.toml" ;;
+  *Fastfetch*)      foot -c "$FOOT_DIR" "$HOME/.config/fastfetch/config.jsonc" ;;
   *)
     notify-send -u normal "Configuration" "Unknown option."
     ;;
