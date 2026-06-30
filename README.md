@@ -7,10 +7,24 @@ Instalação Arch/CachyOS com theme engine (Matugen), waybar, rofi, hyprlock e d
 | **Hypr full** | `~/.config/hypr` | SDDM → Hyprland |
 | **Hypr-alt** | `~/.config/hyprtheme` | SDDM → HyprTheme |
 
+## Publicar no GitHub (Windows + VMware shared folder)
+
+Os ficheiros saem desta VM/Linux com **LF**. O aviso *LF → CRLF* no GitHub Desktop vem do **Git no Windows** (`core.autocrlf`), não do conteúdo na VM.
+
+Este repo inclui `.gitattributes` para gravar sempre **LF** no GitHub.
+
+No Windows, antes do primeiro commit (só neste repo):
+
+```bash
+git add --renormalize .
+```
+
+No GitHub Desktop: se ainda aparecer só mudança de line endings num ficheiro, descarta essa alteração ou faz *Discard* na linha vazia — o conteúdo real já está certo.
+
 ## Início rápido
 
 ```bash
-git clone https://github.com/amonetlol/hypr-final hypr-theme
+git clone <repo> hypr-theme
 cd hypr-theme
 bash ensure-executable.sh   # opcional se ./install.sh falhar (git sem +x)
 bash install.sh

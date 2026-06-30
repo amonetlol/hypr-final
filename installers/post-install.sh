@@ -55,11 +55,13 @@ bash "$SCRIPT_DIR/repair-runtime-links.sh" || warn "repair-runtime-links falhou"
 log "hide-shortcuts"
 bash "$SCRIPT_DIR/hide-shortcuts.sh" || warn "hide-shortcuts falhou parcialmente"
 
-if [[ -x "$HOME/.config/hypr/scripts/gtkthemes" ]]; then
-  export DBUS_SESSION_BUS_ADDRESS="${DBUS_SESSION_BUS_ADDRESS:-unix:path=/run/user/$(id -u)/bus}"
-  bash "$HOME/.config/hypr/scripts/gtkthemes" || warn "gtkthemes falhou"
-  ok "gtkthemes"
-fi
+for hypr_dir in "$HOME/.config/hypr" "$HOME/.config/hyprtheme"; do
+  if [[ -x "$hypr_dir/scripts/gtkthemes" ]]; then
+    export DBUS_SESSION_BUS_ADDRESS="${DBUS_SESSION_BUS_ADDRESS:-unix:path=/run/user/$(id -u)/bus}"
+    bash "$hypr_dir/scripts/gtkthemes" || warn "gtkthemes falhou ($hypr_dir)"
+    ok "gtkthemes ($hypr_dir)"
+  fi
+done
 
 bash "$SCRIPT_DIR/setup-nvim.sh" || warn "setup-nvim falhou"
 

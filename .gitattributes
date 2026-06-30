@@ -1,0 +1,37 @@
+# Força LF no repo — evita CRLF ao commitar no GitHub Desktop (Windows).
+# Copiar via pasta partilhada VMware mantém LF; o Git no Windows é que converte sem isto.
+
+* text=auto eol=lf
+
+*.sh text eol=lf
+*.bash text eol=lf
+install.sh text eol=lf
+check-install.sh text eol=lf
+ensure-executable.sh text eol=lf
+action.sh text eol=lf
+gtkthemes text eol=lf
+run-hyprland-theme text eol=lf
+waybar-wttr.py text eol=lf
+
+*.py text eol=lf
+*.lua text eol=lf
+*.conf text eol=lf
+*.desktop text eol=lf
+*.jsonc text eol=lf
+*.toml text eol=lf
+*.ini text eol=lf
+*.css text eol=lf
+*.md text eol=lf
+*.txt text eol=lf
+*.rasi text eol=lf
+
+# Binários / assets comprimidos — não tocar
+*.zip binary
+*.tar.xz binary
+*.tar.gz binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.gif binary
+*.ico binary

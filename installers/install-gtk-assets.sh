@@ -46,13 +46,15 @@ install_cursors() {
 }
 
 apply_gtkthemes() {
-  local gtk="$HOME/.config/hypr/scripts/gtkthemes"
-  local src="$REPO_ROOT/shared-themes/hypr/scripts/gtkthemes"
-  mkdir -p "$HOME/.config/hypr/scripts"
-  cp -f "$src" "$gtk"
-  chmod +x "$gtk"
-  log "Aplicando gtkthemes..."
-  bash "$gtk"
+  local gtk src="$REPO_ROOT/shared-themes/hypr/scripts/gtkthemes"
+  for hypr_dir in "$HOME/.config/hypr" "$HOME/.config/hyprtheme"; do
+    gtk="$hypr_dir/scripts/gtkthemes"
+    mkdir -p "$hypr_dir/scripts"
+    cp -f "$src" "$gtk"
+    chmod +x "$gtk"
+    log "Aplicando gtkthemes ($hypr_dir)..."
+    bash "$gtk" || log "gtkthemes falhou ($hypr_dir)"
+  done
   ok "gtkthemes aplicado"
 }
 

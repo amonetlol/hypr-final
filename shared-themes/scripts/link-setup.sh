@@ -6,6 +6,8 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 THEMES_SRC="$(cd "$SCRIPT_DIR/.." && pwd)"
 # shellcheck source=lib/runtime-links.sh
 source "$SCRIPT_DIR/lib/runtime-links.sh"
+# shellcheck source=lib/session-detect.sh
+source "$SCRIPT_DIR/lib/session-detect.sh"
 
 CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
 THEMES_DEST="$CONFIG_HOME/themes"
@@ -185,13 +187,14 @@ link_path "$THEMES_ACTIVE/wlogout" "$WLOGOUT_DEST"
 
 echo
 echo "=== Hyprland ==="
-mkdir -p "$HYPR_DIR" 2>/dev/null || true
-if [[ -d "$HYPR_DIR" ]]; then
-  link_path "$THEMES_ACTIVE/hypr/theme.conf" "$HYPR_DIR/theme.conf"
-  link_path "$THEMES_ACTIVE/hypr/theme.lua" "$HYPR_DIR/theme.lua"
-else
-  echo "SKIP: $HYPR_DIR not found (create ~/.config/hypr first)"
-fi
+for HYPR_DIR in "$CONFIG_HOME/hypr" "$CONFIG_HOME/hyprtheme"; do
+  if [[ -d "$HYPR_DIR" ]]; then
+    link_path "$THEMES_ACTIVE/hypr/theme.conf" "$HYPR_DIR/theme.conf"
+    link_path "$THEMES_ACTIVE/hypr/theme.lua" "$HYPR_DIR/theme.lua"
+  else
+    echo "SKIP: $HYPR_DIR not found"
+  fi
+done
 
 echo
 echo "=== Starship ==="

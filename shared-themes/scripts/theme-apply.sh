@@ -7,6 +7,8 @@ STATE_FILE="$THEMES_DIR/state"
 PACKS_DIR="$THEMES_DIR/packs"
 # shellcheck source=lib/runtime-links.sh
 source "$SCRIPT_DIR/lib/runtime-links.sh"
+# shellcheck source=lib/session-detect.sh
+source "$SCRIPT_DIR/lib/session-detect.sh"
 # shellcheck source=lib/wallpaper.sh
 source "$SCRIPT_DIR/lib/wallpaper.sh"
 # shellcheck source=lib/matugen.sh
@@ -59,14 +61,14 @@ if [[ $DRY_RUN -eq 0 ]]; then
   echo "$THEME" >"$STATE_FILE"
 fi
 
-if [[ -d "$HOME/.config/hypr" ]]; then
-  if [[ $DRY_RUN -eq 1 ]]; then
-    echo "LINK $HOME/.config/hypr/theme.conf -> $THEMES_DIR/hypr/theme.conf"
-    echo "LINK $HOME/.config/hypr/theme.lua -> $THEMES_DIR/hypr/theme.lua"
-  else
-    ln -sfn "$THEMES_DIR/hypr/theme.conf" "$HOME/.config/hypr/theme.conf"
-    ln -sfn "$THEMES_DIR/hypr/theme.lua" "$HOME/.config/hypr/theme.lua"
-  fi
+if [[ $DRY_RUN -eq 1 ]]; then
+  for _d in "$HOME/.config/hypr" "$HOME/.config/hyprtheme"; do
+    [[ -d "$_d" ]] || continue
+    echo "LINK $_d/theme.conf -> $THEMES_DIR/hypr/theme.conf"
+    echo "LINK $_d/theme.lua -> $THEMES_DIR/hypr/theme.lua"
+  done
+else
+  link_all_hypr_theme_files "$THEMES_DIR"
 fi
 
 if [[ $NO_WALLPAPER -eq 0 && "$THEME" != "matugen" ]]; then

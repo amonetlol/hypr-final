@@ -8,6 +8,9 @@ die() { printf "[ERRO] %s\n" "$1" >&2; exit 1; }
 warn() { printf "[AVISO] %s\n" "$1"; }
 
 ROFI_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+THEMES_DIR="$(dirname "$ROFI_DIR")"
+# shellcheck source=../../scripts/lib/session-detect.sh
+source "$THEMES_DIR/scripts/lib/session-detect.sh"
 resolve_rasi() {
   local name="$1"
   local candidate
@@ -57,13 +60,10 @@ do_logout() {
 }
 
 locky() {
-  local alt_lock="$HOME/.config/hyprtheme/hyprlock.conf"
-  local main_lock="$HOME/.config/hypr/hyprlock.conf"
-
-  if pgrep -af "Hyprland|start-hyprland" | grep -Fq -- "--config ${HOME}/.config/hyprtheme/"; then
-    hyprlock -c "$alt_lock"
-  elif [[ -f "$main_lock" ]]; then
-    hyprlock -c "$main_lock"
+  local lock
+  lock="$(hypr_config_dir)/hyprlock.conf"
+  if [[ -f "$lock" ]]; then
+    hyprlock -c "$lock"
   else
     hyprlock
   fi
