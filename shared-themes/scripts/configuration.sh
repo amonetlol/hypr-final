@@ -4,6 +4,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 THEMES_DIR="$(dirname "$SCRIPT_DIR")"
 ROFI_THEME="$THEMES_DIR/rofi/active/menu.rasi"
+FOOT_DIR="$THEMES_DIR/foot/foot.ini"
 
 if [[ $# -gt 2 || ( $# -ge 1 && "$1" != "standalone" && "$1" != "menu" ) ]]; then
   echo "Usage: $0 [menu|standalone] [previous_menu]"
@@ -16,7 +17,7 @@ options=$(printf " Hyprland\n Theme Engine\n Waybar\n Rofi\n Foot\n Kitty\n Alac
 [[ -z "$options" ]] && exit 0
 
 open_dir() {
-  foot nvim "$1"
+  foot -c "$FOOT_DIR" nvim "$1"
 }
 
 hypr_config_dir() {
