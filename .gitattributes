@@ -1,5 +1,4 @@
-# Força LF no repo — evita CRLF ao commitar no GitHub Desktop (Windows).
-# Copiar via pasta partilhada VMware mantém LF; o Git no Windows é que converte sem isto.
+# Força LF no repositório (scripts e configs de texto).
 
 * text=auto eol=lf
 
@@ -7,7 +6,6 @@
 *.bash text eol=lf
 install.sh text eol=lf
 check-install.sh text eol=lf
-ensure-executable.sh text eol=lf
 action.sh text eol=lf
 gtkthemes text eol=lf
 run-hyprland-theme text eol=lf
