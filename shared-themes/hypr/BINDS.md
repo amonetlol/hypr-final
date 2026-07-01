@@ -48,6 +48,9 @@ Abrir: **Super+F1** · Ficheiro: `~/.config/themes/hypr/BINDS.md`
 | Alt+V | Histórico do clipboard |
 | Super+Shift+D | Window switcher (rofi) |
 | Super+P | Menu de screenshot |
+| Super+Print | Screenshot da área (slurp) |
+| Print | Screenshot da janela ativa |
+| Alt+Print | Screenshot do desktop |
 | Super+W | Firefox |
 | F12 | Reiniciar waybar |
 | Super+F12 | Reiniciar waybar (alt) |

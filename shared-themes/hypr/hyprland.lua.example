@@ -21,6 +21,7 @@ local clip = action .. " --clip"
 local wallpaper = action .. " --wall"
 local wallpaper_matu = action .. " --wall-matu"
 local screenshot = action .. " --screen"
+local shot = themes .. "/rofi/scripts/shot.sh"
 local window_switcher = action .. " --window"
 local configuration = themes .. "/scripts/configuration.sh"
 local select_theme = themes .. "/scripts/theme-selector.sh"
@@ -222,6 +223,9 @@ hl.bind(mainMod .. " + X", hl.dsp.exec_cmd(power), { description = "Power menu (
 hl.bind("ALT + V", hl.dsp.exec_cmd(clip), { description = "Clipboard history" })
 hl.bind(mainMod .. " + SHIFT + D", hl.dsp.exec_cmd(window_switcher), { description = "Window switcher" })
 hl.bind(mainMod .. " + P", hl.dsp.exec_cmd(screenshot), { description = "Screenshot menu" })
+hl.bind(mainMod .. " + Print", hl.dsp.exec_cmd(shot .. " --shotarea"), { description = "Screenshot area" })
+hl.bind("Print", hl.dsp.exec_cmd(shot .. " --shotwin"), { description = "Screenshot active window" })
+hl.bind("ALT + Print", hl.dsp.exec_cmd(shot .. " --shotnow"), { description = "Screenshot desktop" })
 
 -- Apps
 hl.bind(mainMod .. " + W", hl.dsp.exec_cmd(browser), { description = "Firefox" })

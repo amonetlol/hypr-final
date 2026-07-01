@@ -11,11 +11,11 @@ accent="$(grep 'accent:' "$COLORS" | head -1 | awk '{print $2}' | tr -d ';' | se
 prompt='Screenshot'
 mesg="Directory :: $(xdg-user-dir PICTURES)/Screenshots"
 
-option_1=' Capture Desktop'
-option_2=' Capture Area'
-option_3=' Capture Window'
-option_4=' Capture in 5s'
-option_5=' Capture in 10s'
+option_1=' Desktop'
+option_2=' Area'
+option_3=' Window'
+option_4=' in 5s'
+option_5=' in 10s'
 
 rofi_cmd() {
   rofi -dmenu -p "$prompt" -mesg "$mesg" -markup-rows -theme "$RASI"

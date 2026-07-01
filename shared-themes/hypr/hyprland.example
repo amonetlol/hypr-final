@@ -28,6 +28,9 @@ exec-once = mako -c ~/.config/themes/mako/config
 # SUPER+SHIFT+C    configuration.sh
 # SUPER+SHIFT+D    window switcher
 # SUPER+P          screenshot menu
+# SUPER+Print      screenshot area
+# Print            screenshot active window
+# ALT+Print        screenshot desktop
 # ALT+V            clipboard
 # ALT+TAB          swap next window
 # F12              restart waybar
